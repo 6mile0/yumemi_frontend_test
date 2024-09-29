@@ -1,4 +1,5 @@
 import Header from "../components/Header/Header";
+import PopulationGraphView from "../components/PopulationGraphView/PopulationGraphView";
 import PrefectureSelector from "../components/PrefectureSelector/PrefectureSelector";
 
 const TopPage: React.FC = () => {
@@ -6,6 +7,7 @@ const TopPage: React.FC = () => {
     <>
       <Header />
       <PrefectureSelector />
+      <PopulationGraphView />
     </>
   );
 };
