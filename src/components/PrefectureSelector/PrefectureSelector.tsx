@@ -197,13 +197,15 @@ const data: Prefecture[] = [
 const PrefectureSelector: React.FC = () => {
   return (
     <div className={styles.container}>
-      {data.map((prefecture) => (
-        <CheckBox
-          key={prefecture.prefCode}
-          label={prefecture.prefName}
-          onChange={() => {}}
-        />
-      ))}
+      <div className={styles.prefectureList}>
+        {data.map((prefecture) => (
+          <CheckBox
+            key={prefecture.prefCode}
+            label={prefecture.prefName}
+            onChange={() => {}}
+          />
+        ))}
+      </div>
     </div>
   );
 };
