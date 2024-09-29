@@ -1,0 +1,18 @@
+.label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.3rem;
+
+  input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 0.5rem;
+  }
+
+  @media screen and (max-width: 1024px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+}

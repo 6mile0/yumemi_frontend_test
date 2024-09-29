@@ -1,9 +1,7 @@
+import TopPage from "./pages/TopPage";
+
 function App() {
-  return (
-    <div>
-      <h1>ゆめみフロントエンド試験</h1>
-    </div>
-  );
+  return <TopPage />;
 }
 
 export default App;

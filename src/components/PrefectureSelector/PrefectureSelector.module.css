@@ -1,0 +1,39 @@
+.container {
+  padding: 0 10%;
+  margin: 20px 0 20px 0;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 5%;
+  }
+
+  @media screen and (max-width: 320px) {
+    padding: 0 2%;
+  }
+}
+
+.prefectureList {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  justify-content: center;
+
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+    gap: 5px;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(3, minmax(60px, 1fr));
+    gap: 5px;
+  }
+
+  @media screen and (max-width: 320px) {
+    grid-template-columns: repeat(2, minmax(20px, 1fr));
+    gap: 2px;
+  }
+}
