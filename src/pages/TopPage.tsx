@@ -1,12 +1,14 @@
 import Header from "../components/Header/Header";
 import PopulationGraphView from "../components/PopulationGraphView/PopulationGraphView";
 import PrefectureSelector from "../components/PrefectureSelector/PrefectureSelector";
+import { usePopulations } from "../hooks/usePopulations";
 import { usePrefectures } from "../hooks/usePrefectures";
 
 import styles from "./TopPage.module.css";
 
 const TopPage: React.FC = () => {
-  const { prefectures, isLoading } = usePrefectures();
+  const { prefectureLists, isLoading } = usePrefectures();
+  const { population, prefectureHandler } = usePopulations();
 
   return (
     <>
@@ -15,9 +17,14 @@ const TopPage: React.FC = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          prefectures && <PrefectureSelector prefectures={prefectures} />
+          prefectureLists && (
+            <PrefectureSelector
+              prefectures={prefectureLists}
+              prefectureHandler={prefectureHandler}
+            />
+          )
         )}
-        <PopulationGraphView />
+        <PopulationGraphView populationData={population.totalPopulation} />
       </div>
     </>
   );
