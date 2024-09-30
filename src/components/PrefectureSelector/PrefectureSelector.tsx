@@ -5,10 +5,15 @@ import styles from "./PrefectureSelector.module.css";
 
 type PrefectureSelectorProps = {
   prefectures: Array<Prefecture>;
+  prefectureHandler: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    prefecture: Prefecture,
+  ) => void;
 };
 
 const PrefectureSelector: React.FC<PrefectureSelectorProps> = ({
   prefectures,
+  prefectureHandler,
 }: PrefectureSelectorProps) => {
   return (
     <div className={styles.container}>
@@ -17,7 +22,7 @@ const PrefectureSelector: React.FC<PrefectureSelectorProps> = ({
           <CheckBox
             key={prefecture.prefCode}
             label={prefecture.prefName}
-            onChange={() => {}}
+            onChange={(e) => prefectureHandler(e, prefecture)}
           />
         ))}
       </div>
