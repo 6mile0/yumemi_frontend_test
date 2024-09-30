@@ -11,7 +11,11 @@ const fetcher = async (url: string) => {
     headers: {
       "X-API-KEY": import.meta.env.VITE_RESAS_API_KEY,
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch(() => {
+      throw new Error("Failed to prefectures data");
+    });
 };
 
 export const usePrefectures = () => {
