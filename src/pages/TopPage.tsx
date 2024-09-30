@@ -7,7 +7,7 @@ import { usePrefectures } from "../hooks/usePrefectures";
 import styles from "./TopPage.module.css";
 
 const TopPage: React.FC = () => {
-  const { prefectureLists, isLoading } = usePrefectures();
+  const { prefectures, isLoading } = usePrefectures();
   const { population, prefectureHandler } = usePopulations();
 
   return (
@@ -17,9 +17,9 @@ const TopPage: React.FC = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          prefectureLists && (
+          prefectures && (
             <PrefectureSelector
-              prefectures={prefectureLists}
+              prefectures={prefectures}
               prefectureHandler={prefectureHandler}
             />
           )
