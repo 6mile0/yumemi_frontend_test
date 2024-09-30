@@ -9,7 +9,8 @@ export const convertPopulationData = (
   populations: PopulationData[],
 ): GraphData[] => {
   const data: GraphData[] = [];
-  const years = populations[0].data.map((data) => data.year);
+  const years =
+    populations.length != 0 ? populations[0].data.map((data) => data.year) : [];
   years.forEach((yearValue, index) => {
     const item: GraphData = {
       year: yearValue,
