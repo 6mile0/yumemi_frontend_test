@@ -1,12 +1,5 @@
 import { useReducer } from "react";
-import { PopulationData } from "../models/Population";
-
-type State = {
-  totalPopulation: PopulationData[];
-  youngPopulation: PopulationData[];
-  workingPopulation: PopulationData[];
-  elderlyPopulation: PopulationData[];
-};
+import { PopulationData, PopulationState } from "../models/Population";
 
 type Action = {
   key: "total" | "young" | "working" | "elderly";
@@ -22,66 +15,48 @@ const initialState = {
   elderlyPopulation: [],
 };
 
-const populationReducer = (state: State, action: Action) => {
-  switch (action.key) {
-    case "total":
-      if (action.type === "add" && action.data) {
+const populationReducer = (state: PopulationState, action: Action) => {
+  if (action.type === "remove") {
+    return {
+      ...state,
+      totalPopulation: state.totalPopulation.filter(
+        (data) => data.prefCode !== action.prefCode,
+      ),
+      youngPopulation: state.youngPopulation.filter(
+        (data) => data.prefCode !== action.prefCode,
+      ),
+      workingPopulation: state.workingPopulation.filter(
+        (data) => data.prefCode !== action.prefCode,
+      ),
+      elderlyPopulation: state.elderlyPopulation.filter(
+        (data) => data.prefCode !== action.prefCode,
+      ),
+    };
+  } else if (action.type === "add" && action.data) {
+    switch (action.key) {
+      case "total":
         return {
           ...state,
           totalPopulation: [...state.totalPopulation, action.data],
         };
-      } else {
-        return {
-          ...state,
-          totalPopulation: state.totalPopulation.filter(
-            (data) => data.prefCode !== action.prefCode,
-          ),
-        };
-      }
-    case "young":
-      if (action.type === "add" && action.data) {
+      case "young":
         return {
           ...state,
           youngPopulation: [...state.youngPopulation, action.data],
         };
-      } else {
-        return {
-          ...state,
-          youngPopulation: state.youngPopulation.filter(
-            (data) => data.prefCode !== action.prefCode,
-          ),
-        };
-      }
-    case "working":
-      if (action.type === "add" && action.data) {
+      case "working":
         return {
           ...state,
           workingPopulation: [...state.workingPopulation, action.data],
         };
-      } else {
-        return {
-          ...state,
-          workingPopulation: state.workingPopulation.filter(
-            (data) => data.prefCode !== action.prefCode,
-          ),
-        };
-      }
-    case "elderly":
-      if (action.type === "add" && action.data) {
+      case "elderly":
         return {
           ...state,
           elderlyPopulation: [...state.elderlyPopulation, action.data],
         };
-      } else {
-        return {
-          ...state,
-          elderlyPopulation: state.elderlyPopulation.filter(
-            (data) => data.prefCode !== action.prefCode,
-          ),
-        };
-      }
-    default:
-      return state;
+    }
+  } else {
+    return state;
   }
 };
 
