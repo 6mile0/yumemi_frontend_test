@@ -1,5 +1,5 @@
+import GraphViewSelector from "../components/GraphViewSelector/GraphViewSelector";
 import Header from "../components/Header/Header";
-import PopulationGraphView from "../components/PopulationGraphView/PopulationGraphView";
 import PrefectureSelector from "../components/PrefectureSelector/PrefectureSelector";
 import { usePopulations } from "../hooks/usePopulations";
 import { usePrefectures } from "../hooks/usePrefectures";
@@ -24,7 +24,12 @@ const TopPage: React.FC = () => {
             />
           )
         )}
-        <PopulationGraphView populationData={population.totalPopulation} />
+        <GraphViewSelector
+          totalPopulation={population.totalPopulation}
+          youngPopulation={population.youngPopulation}
+          elderlyPopulation={population.elderlyPopulation}
+          workingPopulation={population.workingPopulation}
+        />
       </div>
     </>
   );
