@@ -1,7 +1,10 @@
+import { populationType, RESASPopulationResponse } from "../models/Population";
 import { Prefecture } from "../models/Prefecture";
 import { usePopulationReducer } from "./usePopulationReducer";
 
-const fetchPopulation = async (prefCode: number) => {
+const fetchPopulation = async (
+  prefCode: number,
+): Promise<RESASPopulationResponse> => {
   const res = await fetch(
     `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
     {
@@ -16,7 +19,7 @@ const fetchPopulation = async (prefCode: number) => {
     return res.json();
   });
 
-  return res.result.data[0].data;
+  return res.result;
 };
 
 export const usePopulations = () => {
@@ -31,18 +34,54 @@ export const usePopulations = () => {
     );
 
     if (event.target.checked && !isExist) {
-      fetchPopulation(prefecture.prefCode).then((data) => {
-        const value = {
-          prefCode: prefecture.prefCode,
-          prefName: prefecture.prefName,
-          data: data,
-        };
+      fetchPopulation(prefecture.prefCode).then((res) => {
+        res.data.map((r) => {
+          const value = {
+            prefCode: prefecture.prefCode,
+            prefName: prefecture.prefName,
+            data: r.data,
+          };
 
-        dispatch({
-          key: "total",
-          type: "add",
-          prefCode: prefecture.prefCode,
-          data: value,
+          switch (r.label) {
+            case populationType.total: {
+              dispatch({
+                key: "total",
+                type: "add",
+                prefCode: prefecture.prefCode,
+                data: value,
+              });
+              break;
+            }
+            case populationType.young: {
+              dispatch({
+                key: "young",
+                type: "add",
+                prefCode: prefecture.prefCode,
+                data: value,
+              });
+              break;
+            }
+            case populationType.working: {
+              dispatch({
+                key: "working",
+                type: "add",
+                prefCode: prefecture.prefCode,
+                data: value,
+              });
+              break;
+            }
+            case populationType.elderly: {
+              dispatch({
+                key: "elderly",
+                type: "add",
+                prefCode: prefecture.prefCode,
+                data: value,
+              });
+              break;
+            }
+            default:
+              throw new Error("Invalid population data");
+          }
         });
       });
     } else {

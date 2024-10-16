@@ -25,6 +25,14 @@ const PopulationGraphView: React.FC<PopulationGraphViewProps> = ({
   const data = convertPopulationData(populationData);
   const colors = generateRandomColors();
 
+  if (data.length === 0) {
+    return (
+      <div className={styles.container}>
+        <p>データがありません。上部の都道府県一覧から選択してください。</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <ResponsiveContainer width="100%" height={500}>
