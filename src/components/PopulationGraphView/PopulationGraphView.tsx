@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -23,7 +23,7 @@ const PopulationGraphView: React.FC<PopulationGraphViewProps> = ({
   populationData,
 }: PopulationGraphViewProps) => {
   const data = convertPopulationData(populationData);
-  const colors = generateRandomColors();
+  const colors = useMemo(() => generateRandomColors(), []);
 
   if (data.length === 0) {
     return (
