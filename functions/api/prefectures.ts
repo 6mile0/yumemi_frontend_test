@@ -26,8 +26,8 @@ export const onRequestGet = async (context) => {
     try {
         const env = loadEnv(context)
         const response = await fetchRESASPrefectures(env.RESAS_API_KEY)
-        context.res.json(response)
+        return new Response(JSON.stringify(response), { status: 200 })
     } catch (error) {
-        context.res.json({ status: 500, error: error.message })
+        return new Response(error.message, { status: 500 })
     }
 }

@@ -26,8 +26,8 @@ export const onRequestGet = async (context) => {
     try {
         const env = loadEnv(context)
         const response = await fetchRESASPopulations(env.RESAS_API_KEY, context.query.prefCode)
-        context.res.json(response)
+        return new Response(JSON.stringify(response), { status: 200 })
     } catch (error) {
-        context.res.status(500).json({ error: error.message })
+        return new Response(error.message, { status: 500 })
     }
 }
