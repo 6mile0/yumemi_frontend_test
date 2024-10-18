@@ -28,6 +28,6 @@ export const onRequestGet = async (context) => {
         const response = await fetchRESASPrefectures(env.RESAS_API_KEY)
         context.res.json(response)
     } catch (error) {
-        context.res.status(500).json({ error: error.message })
+        context.res.json({ status: 500, error: error.message })
     }
 }
