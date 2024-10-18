@@ -19,8 +19,6 @@ const fetchRESASPrefectures = async (apiKey: string) => {
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
     try {
-        console.log(`Fetching prefectures data`)
-        console.log(context.env.RESAS_API_KEY)
         const response = await fetchRESASPrefectures(context.env.RESAS_API_KEY)
         return new Response(JSON.stringify(response), { status: 200 })
     } catch (error: unknown) {

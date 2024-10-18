@@ -21,8 +21,6 @@ const fetchRESASPopulations = async (apiKey: string, prefCode: string | null) =>
 export const onRequestGet: PagesFunction<Env> = async (context) => {
     const prefCode = new URL(decodeURIComponent(context.request.url)).searchParams.get('prefCode');
     try {
-        console.log(`Fetching populations data for ${prefCode}`)
-        console.log(context.env.RESAS_API_KEY)
         const response = await fetchRESASPopulations(context.env.RESAS_API_KEY, prefCode)
         return new Response(JSON.stringify(response), { status: 200 })
     } catch (error) {
