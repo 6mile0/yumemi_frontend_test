@@ -7,20 +7,33 @@ type PrefecturesResponse = {
 };
 
 const fetcher = async (url: string) => {
-  return await fetch(url, {
-    headers: {
-      "X-API-KEY": import.meta.env.VITE_RESAS_API_KEY,
-    },
-  })
-    .then((res) => res.json())
-    .catch(() => {
-      throw new Error("Failed to prefectures data");
-    });
+  switch (import.meta.env.MODE) {
+    case "development": {
+      return await fetch(url, {
+        headers: {
+          "X-API-KEY": import.meta.env.VITE_RESAS_API_KEY,
+        },
+      })
+        .then((res) => res.json())
+        .catch(() => {
+          throw new Error("Failed to prefectures data");
+        });
+    }
+    default: {
+      return await fetch(url)
+        .then((res) => res.json())
+        .catch(() => {
+          throw new Error("Failed to prefectures data");
+        });
+    }
+  }
 };
 
 export const usePrefectures = () => {
   const { data, error, isLoading } = useSWR<PrefecturesResponse>(
-    "/api/prefectures",
+    import.meta.env.MODE === "development"
+      ? "https://opendata.resas-portal.go.jp/api/v1/prefectures"
+      : "/api/prefectures",
     fetcher,
   );
 
