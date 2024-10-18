@@ -1,14 +1,9 @@
 const API_URL = 'https://opendata.resas-portal.go.jp/api/v1/'
 
-const loadEnv = (context) => {
-    if (context.secrets.RESAS_API_KEY === undefined) {
-        throw new Error("RESAS_API_KEY is not defined")
-    }
-
-    return {
-        RESAS_API_KEY: context.secrets.RESAS_API_KEY
-    }
+interface Env {
+    RESAS_API_KEY: string
 }
+
 
 const fetchRESASPrefectures = async (apiKey: string) => {
     return await fetch(`${API_URL}/prefectures`, {
@@ -22,12 +17,11 @@ const fetchRESASPrefectures = async (apiKey: string) => {
         });
 }
 
-export const onRequestGet = async (context) => {
+export const onRequestGet :PagesFunction<Env>  = async (context) => {
     try {
-        const env = loadEnv(context)
-        const response = await fetchRESASPrefectures(env.RESAS_API_KEY)
+        const response = await fetchRESASPrefectures(context.env.RESAS_API_KEY)
         return new Response(JSON.stringify(response), { status: 200 })
-    } catch (error) {
-        return new Response(error.message, { status: 500 })
+    } catch (error: unknown) {
+        return new Response(JSON.stringify({ message: (error as Error).message }), { status: 500 })
     }
 }

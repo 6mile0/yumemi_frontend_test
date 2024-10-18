@@ -1,16 +1,9 @@
 const API_URL = 'https://opendata.resas-portal.go.jp/api/v1/'
-
-const loadEnv = (context) => {
-    if (context.secrets.RESAS_API_KEY === undefined) {
-        throw new Error("RESAS_API_KEY is not defined")
-    }
-
-    return {
-        RESAS_API_KEY: context.secrets.RESAS_API_KEY
-    }
+interface Env {
+    RESAS_API_KEY: string
 }
 
-const fetchRESASPopulations = async (apiKey: string, prefCode: string) => {
+const fetchRESASPopulations = async (apiKey: string, prefCode: string | null) => {
     return await fetch(`${API_URL}/population/composition/perYear?cityCode=-&prefCode=${prefCode}`, {
         headers: {
             "X-API-KEY": apiKey,
@@ -22,12 +15,12 @@ const fetchRESASPopulations = async (apiKey: string, prefCode: string) => {
         });
 }
 
-export const onRequestGet = async (context) => {
+export const onRequestGet: PagesFunction<Env>  = async (context) => {
+    const prefCode = new URL(decodeURIComponent(context.request.url)).searchParams.get('prefCode');
     try {
-        const env = loadEnv(context)
-        const response = await fetchRESASPopulations(env.RESAS_API_KEY, context.query.prefCode)
+        const response = await fetchRESASPopulations(context.env.RESAS_API_KEY, prefCode)
         return new Response(JSON.stringify(response), { status: 200 })
     } catch (error) {
-        return new Response(error.message, { status: 500 })
+        return new Response(JSON.stringify({ message: (error as Error).message }), { status: 500 })
     }
 }
