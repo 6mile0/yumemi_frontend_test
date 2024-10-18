@@ -5,19 +5,14 @@ import { usePopulationReducer } from "./usePopulationReducer";
 const fetchPopulation = async (
   prefCode: number,
 ): Promise<RESASPopulationResponse> => {
-  const res = await fetch(
-    `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
-    {
-      headers: {
-        "X-API-KEY": import.meta.env.VITE_RESAS_API_KEY,
-      },
+  const res = await fetch(`/api/populations?prefCode=${prefCode}`).then(
+    (res) => {
+      if (!res.ok) {
+        throw new Error("Failed to fetch population data");
+      }
+      return res.json();
     },
-  ).then((res) => {
-    if (!res.ok) {
-      throw new Error("Failed to fetch population data");
-    }
-    return res.json();
-  });
+  );
 
   return res.result;
 };

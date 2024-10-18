@@ -20,7 +20,7 @@ const fetcher = async (url: string) => {
 
 export const usePrefectures = () => {
   const { data, error, isLoading } = useSWR<PrefecturesResponse>(
-    "https://opendata.resas-portal.go.jp/api/v1/prefectures",
+    "/api/prefectures",
     fetcher,
   );
 
