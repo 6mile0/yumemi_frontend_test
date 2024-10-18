@@ -2,19 +2,46 @@ import { populationType, RESASPopulationResponse } from "../models/Population";
 import { Prefecture } from "../models/Prefecture";
 import { usePopulationReducer } from "./usePopulationReducer";
 
+if (
+  import.meta.env.MODE === "development" &&
+  !import.meta.env.VITE_RESAS_API_KEY
+) {
+  throw new Error("Please set your API key in .env file");
+}
+
 const fetchPopulation = async (
   prefCode: number,
 ): Promise<RESASPopulationResponse> => {
-  const res = await fetch(`/api/populations?prefCode=${prefCode}`).then(
-    (res) => {
-      if (!res.ok) {
-        throw new Error("Failed to fetch population data");
-      }
-      return res.json();
-    },
-  );
+  switch (import.meta.env.MODE) {
+    case "development": {
+      const res = await fetch(
+        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
+        {
+          headers: {
+            "X-API-KEY": import.meta.env.VITE_RESAS_API_KEY,
+          },
+        },
+      ).then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch population data");
+        }
+        return res.json();
+      });
 
-  return res.result;
+      return res.result;
+    }
+    default: {
+      const res = await fetch(`/api/population?prefCode=${prefCode}`).then(
+        (res) => {
+          if (!res.ok) {
+            throw new Error("Failed to fetch population data");
+          }
+          return res.json();
+        },
+      );
+      return res.result;
+    }
+  }
 };
 
 export const usePopulations = () => {
