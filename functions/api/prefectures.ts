@@ -1,4 +1,4 @@
-const API_URL = 'https://opendata.resas-portal.go.jp/api/v1/'
+const API_URL = 'https://opendata.resas-portal.go.jp/api/v1'
 
 interface Env {
     RESAS_API_KEY: string
