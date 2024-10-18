@@ -10,7 +10,9 @@
     "format": "prettier --write src",
     "preview": "vite preview",
     "prepare": "husky",
-    "test-ui": "vitest --ui"
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "react": "^18.3.1",
