@@ -31,7 +31,7 @@ const fetchPopulation = async (
       return res.result;
     }
     default: {
-      const res = await fetch(`/api/population?prefCode=${prefCode}`).then(
+      const res = await fetch(`/api/populations?prefCode=${prefCode}`).then(
         (res) => {
           if (!res.ok) {
             throw new Error("Failed to fetch population data");
